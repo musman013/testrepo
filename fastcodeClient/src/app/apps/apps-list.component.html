@@ -1,0 +1,183 @@
+<div class="list-container" (onScroll)="onTableScroll()" appVirtualScroll>
+  <div class="top-breadcrumb">
+    <h1 class="template-title">{{title}}</h1>
+    <div class="fc-row">
+      <div class="fc-col-md-8">
+        <ul class="breadcrumb">
+          <li><a [routerLink]="['/dashboard']"><i class="material-icons">
+                home
+              </i> &nbsp;Dashboard</a></li>
+          <li><a>{{title}}</a></li>
+          <li *ngIf="selectedAssociation" (click)="back()">
+            <span *ngIf="selectedAssociation.associatedObj">
+              {{selectedAssociation.table}}: {{selectedAssociation.associatedObj[selectedAssociation.referencedDescriptiveField]}}
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="fc-col-md-4 fc-text-right">
+        <button name="add" mat-raised-button color="primary"  (click)="addNew()"><i
+            class="material-icons">
+            add_circle_outline
+          </i> &nbsp;{{'GENERAL.ACTIONS.ADD' | translate}}</button>
+      </div>
+    </div>
+  </div>
+  <mat-card>
+	  <app-list-filters [columnsList]="selectedColumns" (onSearch)="applyFilter($event)"></app-list-filters>
+  	<div class="table-container">
+  		<mat-table matSort [dataSource]="items" class="mat-elevation-z8">
+  			<ng-container matColumnDef="artifactId">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('artifactId')"> {{getFieldLabel("ArtifactId")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.artifactId }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="authMethod">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('authMethod')"> {{getFieldLabel("AuthMethod")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.authMethod }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="authTable">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('authTable')"> {{getFieldLabel("AuthTable")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.authTable }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="caching">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('caching')"> {{getFieldLabel("Caching")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.caching }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="createdDate">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('createdDate')"> {{getFieldLabel("CreatedDate")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{item.createdDate | date: defaultDateFormat}}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="description">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('description')"> {{getFieldLabel("Description")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.description }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="destinationPath">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('destinationPath')"> {{getFieldLabel("DestinationPath")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.destinationPath }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="emailTemplates">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('emailTemplates')"> {{getFieldLabel("EmailTemplates")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.emailTemplates }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="entityHistory">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('entityHistory')"> {{getFieldLabel("EntityHistory")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.entityHistory }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="groupId">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('groupId')"> {{getFieldLabel("GroupId")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.groupId }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="id">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('id')"> {{getFieldLabel("Id")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.id }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="jdbcPassword">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('jdbcPassword')"> {{getFieldLabel("JdbcPassword")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.jdbcPassword }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="jdbcUrl">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('jdbcUrl')"> {{getFieldLabel("JdbcUrl")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.jdbcUrl }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="jdbcUsername">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('jdbcUsername')"> {{getFieldLabel("JdbcUsername")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.jdbcUsername }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="name">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('name')"> {{getFieldLabel("Name")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.name }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="processAdminApp">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('processAdminApp')"> {{getFieldLabel("ProcessAdminApp")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.processAdminApp }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="processManagement">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('processManagement')"> {{getFieldLabel("ProcessManagement")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.processManagement }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="scheduler">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('scheduler')"> {{getFieldLabel("Scheduler")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.scheduler }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="schema">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('schema')"> {{getFieldLabel("Schema")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.schema }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="upgrade">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('upgrade')"> {{getFieldLabel("Upgrade")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.upgrade }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="userId">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('userId')"> {{getFieldLabel("UserId")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.userId }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="userOnly">
+  				<mat-header-cell mat-sort-header *matHeaderCellDef [disabled]="!isColumnSortable('userOnly')"> {{getFieldLabel("UserOnly")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item">
+  					{{ item.userOnly }}
+  				</mat-cell>
+  			</ng-container>
+  			<ng-container matColumnDef="actions">
+  				<mat-header-cell *matHeaderCellDef> {{getFieldLabel("Actions")}}</mat-header-cell>
+  				<mat-cell *matCellDef="let item" (click)="$event.stopPropagation()">
+            <button name="edit" mat-icon-button aria-label="Example icon-button with a heart icon text-dangger"
+              matTooltip="('GENERAL.ACTIONS.OPEN-DETAILS' | translate)" (click)="openDetails(item)">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+            <button name="delete" mat-icon-button color="warn" aria-label="Example icon-button with a heart icon text-dangger" matTooltip="('GENERAL.ACTIONS.DELETE' | translate)"  
+              (click)="delete(item)">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+  				</mat-cell>
+  			</ng-container>
+  			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  		</mat-table>
+  	</div>
+    <section  class="small-spinner-container" *ngIf="isLoadingResults">
+      <mat-spinner></mat-spinner>
+    </section>
+	</mat-card>
+</div>
